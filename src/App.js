@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
+import PokemonList from "./pages/PokemonList";
+import PokemonDetail from "./pages/DetailPokemon";
+import "./App.css";
+import Background from "./assets/background.png";
 
 function App() {
+  useEffect(() => {
+    localStorage.setItem("myPokemon", JSON.stringify([]));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ backgroundImage: `url(${Background})`, backgroundRepeat: "round", minHeight: "100vh", width: "100%", height: "auto" }}>
+      <BrowserRouter>
+        <Switch>
+          <Route path={"/"} exact component={PokemonList} />
+          <Route path={"/pokemonDetail/:name"} component={PokemonDetail} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
-
 export default App;

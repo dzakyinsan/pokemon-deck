@@ -1,0 +1,52 @@
+.list-cards-container {
+  height: 15em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-container {
+  position: relative;
+  width: 250px;
+  height: 250px;
+}
+.the-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: all 0.5s ease;
+}
+
+.the-card:hover {
+  transform: rotateY(180deg);
+}
+.the-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  color: #333;
+}
+.the-front img {
+  height: 12em;
+  cursor: pointer;
+}
+.the-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: black;
+  color: whitesmoke;
+  transform: rotateY(180deg);
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+}
+.back-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
