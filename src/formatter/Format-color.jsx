@@ -18,6 +18,9 @@ export class ColorFormatter {
       case "normal":
         statusColor = "#cfab7a";
         break;
+      case "electric":
+        statusColor = "#e1daa3";
+        break;
       default:
         statusColor = "#79e0c8";
         break;

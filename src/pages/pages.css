@@ -42,26 +42,11 @@
   border: none !important;
   margin-top: 15px;
 }
-/*  */
-.load-more {
-  height: 35px;
-  width: 35px;
-  border-radius: 50%;
-  display: inline-block;
-  background-color: antiquewhite;
+.my-pokemon {
+  position: absolute;
+  top: 100px;
+  right: 100px;
+}
+.my-pokemon:hover {
   cursor: pointer;
-}
-.load-more .load-icon {
-  margin: 8px 0 0 6px !important;
-}
-.loading-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.loading-page img {
-  height: 100px;
-  padding-right: 20px;
 }

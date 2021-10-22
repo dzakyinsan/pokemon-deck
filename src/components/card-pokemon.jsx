@@ -24,7 +24,7 @@ export default function CardPokemon({ pokemon }) {
                 <p>
                   <strong>{pokemon.name}</strong>
                 </p>
-                <p>Owned : 0</p>
+                <p>{`Owned : ${pokemon.owned}`}</p>
               </div>
             </div>
           </div>

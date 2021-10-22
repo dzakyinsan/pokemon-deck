@@ -1,13 +1,15 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import { Button } from "reactstrap";
 import Swal from "sweetalert2";
 import "./pages.css";
-import { ColorFormatter } from "./../components/FormatColor";
-import Loading from "./../assets/loading2.gif";
+import { ColorFormatter } from "../formatter/Format-color";
+import LoadingComponent from "../components/loading-component";
 
 export default function DetailPokemon() {
+  const history = useHistory();
   const { name } = useParams();
 
   const [dataDetail, setDataDetail] = useState({});
@@ -23,6 +25,15 @@ export default function DetailPokemon() {
     if (data) {
       setDataDetail(data);
     }
+  };
+
+  const valueValidation = (value) => {
+    const dataLs = localStorage.getItem("myPokemon");
+    const parseLs = JSON.parse(dataLs);
+    const sameValue = parseLs.filter(({ nickname }) => value === nickname);
+
+    if (!value) return "You need to write a nickname!";
+    else if (sameValue.length) return "Nickname already used";
   };
 
   const onCatchPokemon = () => {
@@ -45,21 +56,20 @@ export default function DetailPokemon() {
                 text: "Give pokemone a nickname to save it on the deck",
                 icon: "success",
                 input: "text",
-                inputPlaceholder: "give the pokemon a nickname",
-                inputValidator: (value) => {
-                  if (!value) {
-                    return "You need to write a nickname!";
-                  }
-                },
+                inputPlaceholder: "pokemon a nickname",
+                inputValidator: (value) => valueValidation(value),
               });
               if (nickname) {
-                Swal.fire(`${nickname} save to deck`);
-                const { name, abilities, sprites } = dataDetail;
+                Swal.fire({
+                  title: `${nickname} save to deck`,
+                }).then((res) => history.push("/"));
+                const { name, abilities, sprites, types } = dataDetail;
                 const newPokemon = {
                   nickname,
                   name,
                   abilities,
                   sprites,
+                  types,
                 };
                 const dataLs = localStorage.getItem("myPokemon");
                 const parseLs = JSON.parse(dataLs);
@@ -76,14 +86,7 @@ export default function DetailPokemon() {
   };
 
   if (!dataDetail.name) {
-    return (
-      <div className="loading-page">
-        <img src={Loading} alt="loading" />
-        <p>
-          <strong>Loading ...</strong>
-        </p>
-      </div>
-    );
+    return <LoadingComponent />;
   }
   return (
     <div className="d-flex justify-content-center detail-container">
@@ -91,7 +94,7 @@ export default function DetailPokemon() {
         <div className="row p-3 pb-4">
           <div className="col-lg-5 col-md-12">
             <div className="d-flex justify-content-center detail-img" style={{ backgroundImage: `linear-gradient(${ColorFormatter.setBackground(dataDetail?.types[0]?.type.name)}, whitesmoke)` }}>
-              <img src={dataDetail?.sprites?.other?.dream_world?.front_default} alt={dataDetail?.name} />
+              <img src={dataDetail.sprites.other.dream_world.front_default} alt={dataDetail?.name} />
             </div>
             <div>
               <Button className="catch-btn" size="lg" block onClick={onCatchPokemon}>
@@ -103,19 +106,19 @@ export default function DetailPokemon() {
             <h5>{dataDetail?.name}</h5>
             <div>
               <h6>Moves</h6>
-              {dataDetail?.moves?.map((val, i) => {
+              {dataDetail.moves?.map((val, i) => {
                 if (i === dataDetail.moves.length - 1) {
-                  return <span>{val.move.name}</span>;
+                  return <span key={i}>{val.move.name}</span>;
                 } else {
-                  return <span>{val.move.name},</span>;
+                  return <span key={i}>{val.move.name},</span>;
                 }
               })}
             </div>
             <div>
               <h6>Types</h6>
               <div className="row">
-                {dataDetail?.types?.map((val) => (
-                  <div className="col-6">
+                {dataDetail?.types?.map((val, i) => (
+                  <div className="col-6" key={i}>
                     <div className="row">
                       <div className="col">
                         <span>{val.type.name}</span>
@@ -131,8 +134,8 @@ export default function DetailPokemon() {
             <div>
               <h6>Status</h6>
               <div className="row">
-                {dataDetail?.stats?.map((val) => (
-                  <div className="col-6">
+                {dataDetail?.stats?.map((val, i) => (
+                  <div className="col-6" key={i}>
                     <div className="row">
                       <div className="col">
                         <span>{val.stat.name}</span>
