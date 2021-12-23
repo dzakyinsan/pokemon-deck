@@ -1,6 +1,6 @@
 export class ColorFormatter {
-  static setBackground(status: number) {
-    let statusColor: string;
+  static setBackground(status) {
+    let statusColor;
 
     switch (status) {
       case "water":
